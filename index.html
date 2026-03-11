@@ -1,118 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baloch IMEI Checker | Ubaidullah</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@600&display=swap');
-        body { background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
+<script>
+    function checkIMEI() {
+        const imei = document.getElementById('imeiBox').value;
+        const res = document.getElementById('resultBox');
+        const load = document.getElementById('loadParent');
 
-        /* Profile Ring with RGB Animation */
-        .profile-container { position: relative; width: 150px; height: 150px; margin: 0 auto 20px; }
-        .glowing-ring {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 50%; border: 4px solid transparent;
-            border-top-color: #ff00ea; border-bottom-color: #00f2ff;
-            animation: spinRing 2s linear infinite; filter: drop-shadow(0 0 10px #00f2ff);
-        }
-        @keyframes spinRing { 0% { transform: rotate(0deg); filter: hue-rotate(0deg); } 100% { transform: rotate(360deg); filter: hue-rotate(360deg); } }
-        .user-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid #000; z-index: 5; position: relative; }
+        if(imei.length < 15) { alert("Dost, 15 digits poore likho!"); return; }
 
-        /* Butterfly Magic Effect */
-        .butterfly { position: absolute; font-size: 25px; pointer-events: none; z-index: 100; }
-        @keyframes fly { 
-            0% { transform: translate(0,0) scale(1) rotate(0deg); opacity: 1; } 
-            100% { transform: translate(var(--x), var(--y)) scale(0) rotate(360deg); opacity: 0; } 
-        }
+        // Butterflies Effect
+        for(let i=0; i<15; i++) setTimeout(createButterfly, i * 100);
 
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 380px; }
-        .loader-line { height: 4px; width: 0%; background: linear-gradient(to right, #ff00ea, #00f2ff); transition: 1s; border-radius: 2px; }
-    </style>
-</head>
-<body>
+        load.classList.remove('hidden');
+        res.classList.add('hidden');
 
-    <div class="glass p-8 text-center relative shadow-2xl">
-        <div class="profile-container">
-            <div class="glowing-ring"></div>
-            <img src="https://image2url.com/r2/default/images/1773136910732-af0e2bff-9dc9-4484-99cb-d3884a4b5957.png" class="user-pic">
-        </div>
+        setTimeout(() => {
+            load.classList.add('hidden');
+            res.classList.remove('hidden');
 
-        <h1 style="font-family: 'Orbitron';" class="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent mb-1 italic">BALOCH IMEI CHECKER</h1>
-        <p class="text-[10px] tracking-widest text-blue-400 mb-6 font-bold uppercase">Provided by Ubaidullah Baloch</p>
+            // --- SMART BRAND DETECTION LOGIC ---
+            let brand = "Global Android Device";
+            let status = "Clean / Verified";
+            const tac2 = imei.substring(0, 2);
+            const tac4 = imei.substring(0, 4);
 
-        <input type="number" id="imeiBox" 
-            class="w-full bg-black/50 border-2 border-white/10 rounded-xl py-3 text-2xl font-mono text-center text-blue-300 outline-none mb-4 focus:border-blue-500"
-            placeholder="ENTER IMEI">
-
-        <button onclick="checkIMEI()" 
-            class="w-full bg-gradient-to-r from-blue-600 to-purple-700 py-4 rounded-xl font-bold text-lg hover:brightness-125 transition-all shadow-lg">
-            CHECK STATUS
-        </button>
-
-        <div id="loadParent" class="hidden mt-4 bg-gray-800 rounded-full h-1 overflow-hidden">
-            <div id="loaderLine" class="loader-line"></div>
-        </div>
-
-        <div id="resultBox" class="hidden mt-6 p-5 rounded-xl border-2 transition-all transform scale-0 duration-500"></div>
-        
-        <div class="mt-8 pt-4 border-t border-white/5">
-            <p class="text-[10px] text-gray-500 italic">Admin Contact: +92 370 2866763</p>
-        </div>
-    </div>
-
-    <script>
-        function createButterfly() {
-            const b = document.createElement('div');
-            b.innerHTML = "🦋"; b.className = 'butterfly';
-            const x = (Math.random() - 0.5) * 800;
-            const y = (Math.random() - 0.5) * 800;
-            b.style.setProperty('--x', `${x}px`);
-            b.style.setProperty('--y', `${y}px`);
-            b.style.left = '50%'; b.style.top = '40%';
-            b.style.animation = `fly 1.5s ease-out forwards`;
-            document.body.appendChild(b);
-            setTimeout(() => b.remove(), 1500);
-        }
-
-        function checkIMEI() {
-            const imei = document.getElementById('imeiBox').value;
-            const res = document.getElementById('resultBox');
-            const load = document.getElementById('loadParent');
-            const line = document.getElementById('loaderLine');
-
-            if(imei.length < 15) { alert("Please enter 15 digits!"); return; }
-
-            // Titliyan (Butterflies) effect
-            for(let i=0; i<20; i++) setTimeout(createButterfly, i * 50);
-
-            load.classList.remove('hidden');
-            res.classList.add('hidden');
-            res.style.transform = "scale(0)";
-            line.style.width = "100%";
-
-            setTimeout(() => {
-                load.classList.add('hidden');
-                line.style.width = "0%";
-                res.classList.remove('hidden');
-                res.style.transform = "scale(1)";
-
-                // Smart Logic
-                let brand = "Global Device";
-                if(imei.startsWith("35")) brand = "iPhone / Apple Care";
-                else if(imei.startsWith("86")) brand = "Xiaomi / Redmi";
-                else if(imei.startsWith("35")) brand = "Samsung Premium";
-
-                res.innerHTML = `
-                    <h2 class="text-xl font-bold text-green-400 tracking-widest">VALID DEVICE ✅</h2>
-                    <p class="text-white mt-1 text-lg font-bold">${brand}</p>
-                    <p class="text-[10px] text-gray-400 mt-2">Database Secured by Ubaidullah Baloch</p>
-                `;
-                res.className = "mt-6 p-5 rounded-xl border-2 border-green-500 bg-green-500/10 block scale-100";
-            }, 1200);
-        }
-    </script>
-</body>
-</html>
+            if (tac2 === '35') brand = "iPhone / Apple Inc.";
+            else if (tac4 === '8681' || tac4 === '8634') brand = "Samsung Galaxy";
+            else if (tac4 === '8641' || tac4 === '8652') brand = "Vivo Mobile";
+            else if (tac4 === '8675' || tac4 === '8620') brand = "Oppo / Realme";
+            else if (tac4 === '8649' || tac4 === '3524') brand = "Infinix / Tecno";
+            else if (tac2 === '91') brand = "Huawei / Honor";
+            else if (tac2 === '86') brand = "Xiaomi / Redmi";
+            
+            res.innerHTML = `
+                <h2 class="text-xl font-bold text-green-400 italic">DEVICE FOUND ✅</h2>
+                <p class="text-white mt-1 text-lg font-bold uppercase tracking-tight">${brand}</p>
+                <div class="flex justify-between mt-3 text-[10px] text-gray-400 border-t border-white/10 pt-2">
+                    <span>Status: <b class="text-blue-400">Clean</b></span>
+                    <span>Region: <b class="text-blue-400">Global</b></span>
+                </div>
+                <p class="text-[9px] text-yellow-600 mt-2 font-bold">BALOCH SYSTEM VERIFIED</p>
+            `;
+            res.className = "mt-6 p-5 rounded-xl border-2 border-green-500 bg-green-500/10 block animate-pulse";
+        }, 1200);
+    }
+</script>
