@@ -4,7 +4,7 @@
         const res = document.getElementById('resultBox');
         const load = document.getElementById('loader');
 
-        if(imei.length < 15) { 
+        if(imei.length !== 15) { 
             alert("Ubaidullah Baloch Says: Please enter 15 digits!"); 
             return; 
         }
@@ -19,53 +19,50 @@
             load.classList.add('hidden');
             res.classList.remove('hidden');
 
-            // --- REAL SMART DETECTION LOGIC ---
             let brand = "Global Android Device";
             let type = "Smartphone";
             
-            // IMEI ke pehle 2 ya 4 digits se pehchan
-            const t2 = imei.substring(0, 2);
-            const t4 = imei.substring(0, 4);
-            const t8 = imei.substring(0, 8);
+            const t4 = imei.substring(0, 4); // Pehle 4 digits
+            const t2 = imei.substring(0, 2); // Pehle 2 digits
 
-            // 1. iPhone Check (Peche 35 se shuru hota hai)
-            if (t2 === '35' && !['3528', '3556', '3592'].includes(t4)) {
-                brand = "Apple iPhone";
-                type = "iOS Premium Device";
+            // 1. Sabse pehle Nokia/Keypad check karein (kyunke ye 35 se shuru ho sakte hain)
+            if (['3528', '3556', '3592', '3534', '3566'].includes(t4)) {
+                brand = "Nokia / Keypad Phone";
+                type = "Classic Feature Phone";
             }
             // 2. Samsung Check
-            else if (t4 === '3581' || t4 === '3536' || t4 === '3548' || t4 === '8681') {
+            else if (['3581', '3536', '3548', '8681', '3572'].includes(t4)) {
                 brand = "Samsung Galaxy";
                 type = "Android Series";
             }
-            // 3. Nokia / Keypad Check
-            else if (t4 === '3528' || t4 === '3556' || t4 === '3592' || t4 === '3534') {
-                brand = "Nokia Mobile";
-                type = "Feature / Keypad Phone";
+            // 3. Infinix / Itel / Tecno Check
+            else if (['3524', '8649', '3573', '8613'].includes(t4)) {
+                brand = "Infinix / Itel / Tecno";
+                type = "Smart/Keypad Series";
             }
-            // 4. Vivo / Oppo / Realme Check
-            else if (t4 === '8641' || t4 === '8675' || t4 === '8615' || t4 === '8652') {
+            // 4. Vivo / Oppo / Realme
+            else if (['8641', '8675', '8615', '8652'].includes(t4)) {
                 brand = "Vivo / Oppo / Realme";
                 type = "Android Smartphone";
             }
-            // 5. Infinix / Itel / Tecno Check
-            else if (t4 === '3524' || t4 === '8649' || t4 === '3573' || t4 === '3566') {
-                brand = "Infinix / Itel / Tecno";
-                type = "Budget Series";
+            // 5. Agar upar kuch match na ho aur 35 se shuru ho, tab iPhone kahega
+            else if (t2 === '35') {
+                brand = "Apple iPhone";
+                type = "iOS Premium";
             }
             // 6. Xiaomi Check
-            else if (t2 === '86' && brand === "Global Android Device") {
+            else if (t2 === '86') {
                 brand = "Xiaomi / Redmi";
-                type = "MIUI Global";
+                type = "Android Global";
             }
 
             res.innerHTML = `
-                <h2 class="text-xl font-bold text-green-400">DEVICE FOUND ✅</h2>
-                <p class="text-white mt-1 text-lg font-bold uppercase tracking-tighter">${brand}</p>
-                <p class="text-[10px] text-blue-400 font-bold uppercase">${type}</p>
+                <h2 class="text-xl font-bold text-green-400">DEVICE IDENTIFIED ✅</h2>
+                <p class="text-white mt-1 text-lg font-bold uppercase">${brand}</p>
+                <p class="text-[10px] text-blue-400 font-bold">${type}</p>
                 <div class="mt-3 text-[10px] text-gray-500 border-t border-white/10 pt-2 flex justify-between">
                     <span>Status: <b class="text-green-500">PTA Approved</b></span>
-                    <span>Database: <b class="text-white">Baloch v2.0</b></span>
+                    <span>Verified by: <b class="text-white">Baloch</b></span>
                 </div>
             `;
             res.className = "mt-6 p-5 rounded-xl border-2 border-green-500 bg-green-500/10 block scale-100";
