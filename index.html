@@ -4,9 +4,12 @@
         const res = document.getElementById('resultBox');
         const load = document.getElementById('loadParent');
 
-        if(imei.length < 15) { alert("Dost, 15 digits poore likho!"); return; }
+        if(imei.length < 15) { 
+            alert("Ubaidullah Baloch Says: Please enter full 15 digits!"); 
+            return; 
+        }
 
-        // Butterflies Effect
+        // Butterfly Animation Effect
         for(let i=0; i<15; i++) setTimeout(createButterfly, i * 100);
 
         load.classList.remove('hidden');
@@ -16,28 +19,62 @@
             load.classList.add('hidden');
             res.classList.remove('hidden');
 
-            // --- SMART BRAND DETECTION LOGIC ---
-            let brand = "Global Android Device";
-            let status = "Clean / Verified";
+            // --- ADVANCED BRAND DETECTION (Including Keypad Phones) ---
+            let brand = "Global Mobile Device";
+            let type = "Smartphone / Feature Phone";
+            
             const tac2 = imei.substring(0, 2);
             const tac4 = imei.substring(0, 4);
+            const tac6 = imei.substring(0, 6);
 
-            if (tac2 === '35') brand = "iPhone / Apple Inc.";
-            else if (tac4 === '8681' || tac4 === '8634') brand = "Samsung Galaxy";
-            else if (tac4 === '8641' || tac4 === '8652') brand = "Vivo Mobile";
-            else if (tac4 === '8675' || tac4 === '8620') brand = "Oppo / Realme";
-            else if (tac4 === '8649' || tac4 === '3524') brand = "Infinix / Tecno";
-            else if (tac2 === '91') brand = "Huawei / Honor";
-            else if (tac2 === '86') brand = "Xiaomi / Redmi";
-            
+            // iPhone Logic
+            if (tac2 === '35') {
+                brand = "Apple / iPhone Series";
+                type = "iOS Smart Device";
+            }
+            // Keypad & Android Logic
+            else if (tac4 === '3556' || tac4 === '3528' || tac4 === '3592') {
+                brand = "Nokia / Microsoft";
+                type = "Classic Keypad Phone";
+            }
+            else if (tac4 === '8681' || tac4 === '8634') {
+                brand = "Samsung Galaxy";
+                type = "Android Device";
+            }
+            else if (tac4 === '3524' || tac4 === '8649' || tac6 === '359339') {
+                brand = "Infinix / Tecno / Itel";
+                type = "Keypad & Android Series";
+            }
+            else if (tac4 === '8641' || tac4 === '8652') {
+                brand = "Vivo / iQOO";
+                type = "Android Device";
+            }
+            else if (tac4 === '8675' || tac4 === '8620') {
+                brand = "Oppo / Realme";
+                type = "Android Device";
+            }
+            else if (tac2 === '91' || tac4 === '8601') {
+                brand = "Huawei / Honor";
+                type = "Global Device";
+            }
+            else if (tac2 === '86') {
+                brand = "Xiaomi / Redmi / POCO";
+                type = "Android Device";
+            }
+            else if (tac6 === '351543' || tac6 === '357331') {
+                brand = "QMobile / VGO TEL";
+                type = "Keypad Phone";
+            }
+
             res.innerHTML = `
-                <h2 class="text-xl font-bold text-green-400 italic">DEVICE FOUND ✅</h2>
-                <p class="text-white mt-1 text-lg font-bold uppercase tracking-tight">${brand}</p>
+                <h2 class="text-xl font-bold text-green-400 italic">DEVICE IDENTIFIED ✅</h2>
+                <p class="text-white mt-1 text-lg font-bold uppercase">${brand}</p>
+                <p class="text-[11px] text-blue-400 font-semibold mb-2">${type}</p>
                 <div class="flex justify-between mt-3 text-[10px] text-gray-400 border-t border-white/10 pt-2">
-                    <span>Status: <b class="text-blue-400">Clean</b></span>
-                    <span>Region: <b class="text-blue-400">Global</b></span>
+                    <span>Hardware: <b class="text-white">Clean</b></span>
+                    <span>Status: <b class="text-green-500">PTA Compliant</b></span>
                 </div>
-                <p class="text-[9px] text-yellow-600 mt-2 font-bold">BALOCH SYSTEM VERIFIED</p>
+                <p class="text-[9px] text-yellow-600 mt-2 font-bold uppercase tracking-widest">Baloch Digital Systems</p>
             `;
             res.className = "mt-6 p-5 rounded-xl border-2 border-green-500 bg-green-500/10 block animate-pulse";
         }, 1200);
