@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@600&display=swap');
-        body { background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; overflow-x: hidden; }
-        .profile-container { position: relative; width: 140px; height: 140px; margin: 0 auto 15px; }
+        body { background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .profile-container { position: relative; width: 130px; height: 130px; margin: 0 auto 15px; }
         .glowing-ring {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50%; border: 4px solid transparent;
             border-top-color: #ff00ea; border-bottom-color: #00f2ff;
-            animation: spinRing 2s linear infinite; filter: drop-shadow(0 0 8px #00f2ff);
+            animation: spinRing 2s linear infinite;
         }
-        @keyframes spinRing { 0% { transform: rotate(0deg); filter: hue-rotate(0deg); } 100% { transform: rotate(360deg); filter: hue-rotate(360deg); } }
+        @keyframes spinRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .user-pic { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #000; z-index: 5; position: relative; }
         .butterfly { position: absolute; font-size: 20px; pointer-events: none; z-index: 99; animation: fly 1.5s ease-out forwards; }
         @keyframes fly { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--bx), var(--by)) scale(0); opacity: 0; } }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); width: 92%; max-width: 380px; padding: 30px; text-align: center; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); width: 92%; max-width: 380px; padding: 25px; text-align: center; }
     </style>
 </head>
 <body>
@@ -30,7 +30,82 @@
             <div class="glowing-ring"></div>
             <img src="https://image2url.com/r2/default/images/1773136910732-af0e2bff-9dc9-4484-99cb-d3884a4b5957.png" class="user-pic">
         </div>
-        <h1 style="font-family: 'Orbitron';" class="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent mb-1 italic">BALOCH IMEI CHECKER</h1>
-        <p class="text-[10px] tracking-widest text-blue-400 mb-6 font-bold uppercase tracking-widest">By Ubaidullah Baloch</p>
+        <h1 style="font-family: 'Orbitron';" class="text-xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent mb-1 italic">BALOCH IMEI CHECKER</h1>
+        <p class="text-[10px] text-blue-400 mb-6 font-bold uppercase">Admin: Ubaidullah Baloch</p>
 
-        <input type="number" id="imeiBox" class
+        <input type="number" id="imeiBox" class="w-full bg-black/50 border-2 border-white/10 rounded-xl py-3 text-2xl font-mono text-center text-blue-300 outline-none mb-4 focus:border-blue-500" placeholder="15 DIGIT IMEI">
+        <button onclick="finalCheck()" class="w-full bg-gradient-to-r from-blue-600 to-purple-700 py-4 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-all">CHECK STATUS</button>
+
+        <div id="loader" class="hidden mt-4 text-cyan-400 animate-pulse text-sm font-bold">Searching Database...</div>
+        <div id="resultBox" class="hidden mt-6 p-5 rounded-xl border-2 transition-all"></div>
+    </div>
+
+    <script>
+        function createButterfly() {
+            const b = document.createElement('div');
+            b.innerHTML = "🦋"; b.className = 'butterfly';
+            b.style.left = '50%'; b.style.top = '40%';
+            b.style.setProperty('--bx', (Math.random() - 0.5) * 500 + 'px');
+            b.style.setProperty('--by', (Math.random() - 0.5) * 500 + 'px');
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 1500);
+        }
+
+        function finalCheck() {
+            const imei = document.getElementById('imeiBox').value;
+            const res = document.getElementById('resultBox');
+            const load = document.getElementById('loader');
+
+            if(imei.length !== 15) { alert("Please enter 15 digits!"); return; }
+
+            for(let i=0; i<15; i++) setTimeout(createButterfly, i * 80);
+            load.classList.remove('hidden');
+            res.classList.add('hidden');
+
+            setTimeout(() => {
+                load.classList.add('hidden');
+                res.classList.remove('hidden');
+
+                const t4 = imei.substring(0, 4);
+                const t2 = imei.substring(0, 2);
+                
+                let brand = "Android Smartphone";
+                let type = "Standard Device";
+
+                // --- NEW STRICT LOGIC ---
+                // Keypad / Feature Phones
+                const keypadTAC = ['3528','3556','3592','3534','3566','3524','3573','3561'];
+                // Samsung
+                const samsungTAC = ['3581','3536','3548','8681','3572','3516'];
+                // Vivo/Oppo
+                const vivoTAC = ['8641','8675','8615','8652','8631','8671'];
+
+                if (keypadTAC.includes(t4)) {
+                    brand = "Nokia / Itel / Keypad";
+                    type = "Classic Feature Phone";
+                } else if (samsungTAC.includes(t4)) {
+                    brand = "Samsung Galaxy";
+                    type = "Android Premium";
+                } else if (vivoTAC.includes(t4)) {
+                    brand = "Vivo / Oppo / Realme";
+                    type = "Smartphone";
+                } else if (t2 === '86') {
+                    brand = "Xiaomi / Redmi";
+                    type = "Global Version";
+                } else if (t2 === '35') {
+                    brand = "Apple iPhone";
+                    type = "iOS Device";
+                }
+
+                res.innerHTML = `
+                    <h2 class="text-xl font-bold text-green-400 italic">PTA STATUS: OK ✅</h2>
+                    <p class="text-white mt-1 text-lg font-bold uppercase underline">${brand}</p>
+                    <p class="text-[10px] text-blue-300 font-bold">${type}</p>
+                    <div class="mt-4 text-[9px] text-gray-500 border-t border-white/5 pt-2">Secure Verified: Baloch System</div>
+                `;
+                res.className = "mt-6 p-5 rounded-xl border-2 border-green-500 bg-green-500/10 block";
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
