@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,65 +8,51 @@
 <title>𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</title>
 
 <style>
-/* HOME PAGE */
 *{box-sizing:border-box}
-
 html,body{
 margin:0;
+width:100%;
 min-height:100%;
 background:#000;
-color:#fff;
+color:white;
 font-family:Arial,Helvetica,sans-serif;
 }
-
+body{overflow-x:hidden}
 #canvas{
 position:fixed;
 inset:0;
 width:100%;
 height:100%;
 z-index:1;
+pointer-events:none;
 }
-
 .home-page{
 position:relative;
 z-index:2;
-min-height:100vh;
+min-height:100dvh;
 width:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:24px;
+padding:24px 15px;
 }
-
-.home-page h1{
-margin:0;
-font-family:Arial Black,Arial,sans-serif;
-font-weight:900;
-line-height:.95;
-}
-
 .umrani{
-font-size:clamp(52px,13vw,85px);
+font-size:clamp(38px,11vw,85px);
 color:#ff3300;
 text-shadow:0 0 20px red,0 0 40px orange,0 0 70px red;
+margin:0;
+font-weight:900;
 }
-
 .tv{
 font-size:clamp(32px,8vw,48px);
-margin-top:8px;
+margin:8px 0 0;
 color:#ffcc00;
 text-shadow:0 0 15px orange,0 0 30px red;
 letter-spacing:3px;
 }
-
-.tag{
-margin-top:18px;
-letter-spacing:1px;
-font-size:15px;
-}
-
+.tag{margin-top:18px;font-size:15px}
 .btns{
 margin-top:32px;
 display:flex;
@@ -73,103 +60,52 @@ gap:12px;
 flex-wrap:wrap;
 justify-content:center;
 }
-
-a.btn,button.btn{
+.btn{
 padding:12px 23px;
 border:2px solid #00eaff;
 color:#00eaff;
 border-radius:30px;
 text-decoration:none;
 font-weight:bold;
-background:rgba(0,0,0,.72);
+background:rgba(0,0,0,.8);
 font-size:14px;
 cursor:pointer;
-transition:transform .2s ease,box-shadow .2s ease;
 }
-
-a.btn:hover,button.btn:hover{
-transform:translateY(-3px);
-box-shadow:0 0 18px currentColor;
-}
-
-a.btn2{
-border-color:#ffaa00;
-color:#ffaa00;
-}
-
-button.btn-owner{
-border-color:#ff55e8;
-color:#ff8cf0;
-}
-
+.btn2{border-color:#ffaa00;color:#ffaa00}
 .owner-panel{
 display:none;
 width:min(360px,100%);
 margin-top:26px;
 padding:20px;
-background:rgba(10,10,18,.92);
+background:rgba(10,10,18,.95);
 border:1px solid #ff55e8;
 border-radius:20px;
-box-shadow:0 0 25px #ff00d433;
-animation:panelIn .35s ease both;
 }
-
 .owner-panel.show{display:block}
-
 .owner-photo{
-display:block;
 width:190px;
 height:190px;
 max-width:70vw;
-max-height:70vw;
 object-fit:cover;
 border-radius:50%;
-margin:0 auto 15px;
 border:3px solid #00eaff;
-box-shadow:0 0 22px #00eaff88;
-animation:floatPhoto 3s ease-in-out infinite;
 }
+.owner-name{color:#ffcc00}
 
-.owner-name{
-font-size:23px;
-color:#ffcc00;
-margin:8px 0;
-}
-
-.owner-caption{
-font-size:13px;
-color:#ddd;
-line-height:1.5;
-margin:0;
-}
-
-@keyframes floatPhoto{
-0%,100%{transform:translateY(0) rotate(-1deg)}
-50%{transform:translateY(-12px) rotate(1deg)}
-}
-
-@keyframes panelIn{
-from{opacity:0;transform:translateY(12px) scale(.97)}
-to{opacity:1;transform:translateY(0) scale(1)}
-}
-
-/* SAKURA PAGE */
+/* SAKURA INTRO */
 
 #sakura-page{
 display:none;
 position:fixed;
 inset:0;
 width:100%;
-height:100%;
+height:100dvh;
 overflow:hidden;
 background:#fff;
 color:#111;
 z-index:10;
 }
-
-#sakura-page.active{
-display:block;
-}
+#sakura-page.active{display:block}
 
 #scene{
 position:absolute;
@@ -179,71 +115,82 @@ height:100%;
 z-index:0;
 }
 
-#sakura-page .person{
+.person{
 position:absolute;
 right:45%;
 bottom:0;
 height:50vh;
+max-width:48%;
 object-fit:contain;
-z-index:1;
-user-select:none;
+object-position:bottom;
+z-index:2;
 }
 
-#sakura-page .block{
+.block{
 height:100%;
 position:absolute;
 width:50%;
 right:0;
 z-index:1;
 display:flex;
-flex-direction:row;
 justify-content:flex-end;
 align-items:flex-end;
 }
 
-#sakura-page .roof{
+.roof{
 display:block;
 align-self:flex-start;
 height:60vh;
 width:auto;
+max-width:55vw;
 object-fit:contain;
-user-select:none;
 }
 
-#sakura-page .girl{
+.girl{
 position:absolute;
-left:30%;
-display:block;
+left:10%;
+bottom:0;
 height:70vh;
+max-width:50vw;
 width:auto;
 object-fit:contain;
-margin-right:20px;
-user-select:none;
 }
 
-#sakura-page .haiku{
+.haiku{
 position:absolute;
 top:5dvh;
-left:80px;
+left:5%;
 writing-mode:vertical-rl;
 text-orientation:mixed;
 font-family:"Yu Mincho","Hiragino Mincho ProN","MS Mincho",serif;
-font-size:32px;
+font-size:clamp(18px,4vw,32px);
 line-height:2.2;
 color:#111;
-letter-spacing:0.08em;
-filter:drop-shadow(2px 2px 2px rgba(0,0,0,.15));
-font-weight:500;
-user-select:none;
-z-index:2;
+letter-spacing:.08em;
+z-index:3;
+}
+
+.intro-text{
+position:absolute;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+z-index:5;
+color:#111;
+font-weight:bold;
+font-size:13px;
+background:#ffffffbb;
+padding:8px 15px;
+border-radius:20px;
+white-space:nowrap;
 }
 
 .back-button{
 position:absolute;
-top:15px;
-left:15px;
+top:12px;
+left:12px;
 z-index:20;
-padding:11px 20px;
+padding:10px 16px;
 border:2px solid #00aabb;
 border-radius:25px;
 background:#111;
@@ -252,93 +199,122 @@ font-weight:bold;
 cursor:pointer;
 }
 
-@media(max-width:600px){
-#sakura-page .haiku{
-left:15px;
-font-size:22px;
-}
-#sakura-page .person{
-right:40%;
-height:40vh;
-}
-#sakura-page .girl{
-height:55vh;
-left:15%;
-}
-#sakura-page .roof{
-height:45vh;
-}
-}
+/* CHANNEL PAGE */
 
-@media(prefers-reduced-motion:reduce){
-*,*::before,*::after{
-animation:none!important;
-transition:none!important;
+#channels-page{
+display:none;
+position:fixed;
+inset:0;
+width:100%;
+height:100dvh;
+overflow-y:auto;
+z-index:15;
+background:#080808;
+color:white;
+text-align:center;
+padding-bottom:30px;
 }
+#channels-page.active{display:block}
+
+.channel-header{
+padding:25px 12px;
+background:#111;
+border-bottom:2px solid #00eaff;
+}
+.channel-header h1{
+font-size:clamp(25px,7vw,38px);
+color:#00eaff;
+text-shadow:0 0 15px cyan;
+margin:8px;
+}
+.channel-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:14px;
+padding:18px;
+max-width:750px;
+margin:auto;
+}
+.channel{
+background:#171717;
+border:1px solid #00eaff;
+border-radius:15px;
+padding:20px 8px;
+cursor:pointer;
+transition:.2s;
+}
+.channel:hover{
+box-shadow:0 0 18px cyan;
+transform:translateY(-3px);
+}
+.channel h3{
+color:#ffcc00;
+margin:5px;
+font-size:17px;
+}
+.channel p{
+font-size:13px;
+margin:8px 0 0;
+}
+.player{
+padding:15px;
+margin:10px auto;
+max-width:800px;
+}
+.player video{
+width:100%;
+max-width:750px;
+background:#000;
+border:2px solid cyan;
+border-radius:12px;
+}
+@media(min-width:700px){
+.channel-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:380px){
+.btn{padding:10px 15px;font-size:12px}
+.person{height:43vh}
+.girl{height:55vh}
+.roof{height:45vh}
+.haiku{left:3%;font-size:17px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- HOME PAGE -->
+<canvas id="canvas"></canvas>
 
-<canvas id="canvas" aria-hidden="true"></canvas>
+<!-- HOME -->
 
 <main class="home-page" id="home-page">
 
 <h1 class="umrani">𓆩UM꧊ꝛ͢𓂃aNi𖡼</h1>
 <h1 class="tv">TV</h1>
 
-<div class="tag">
-Open Website and Enjoy TV 🍿🎥
-</div>
+<div class="tag">Open Website and Enjoy TV 🍿🎥</div>
 
 <div class="btns">
-
-<button class="btn btn-owner"
-id="owner-button"
-type="button">
-Website Owner
-</button>
-
-<button class="btn btn2"
-id="channels-button"
-type="button">
-Show Channels
-</button>
-
+<button class="btn" id="owner-button">Website Owner</button>
+<button class="btn btn2" id="channels-button">Show Channels</button>
 </div>
 
-<section class="owner-panel"
-id="owner-panel"
-aria-label="Website owner profile">
-
+<section class="owner-panel" id="owner-panel">
 <img class="owner-photo"
-src="ubaid.jpg"
-alt="Website owner photo"
-onerror="this.onerror=null;this.src='https://placehold.co/400x400/171820/00eaff?text=Check+Photo+Filename'">
-
-<h2 class="owner-name">
-𓆩❍Ꮿη̽e꧊ꝛ͢𓂃𖡼
-</h2>
-
-<p class="owner-caption">
-Ubaidullah BaLoch
-</p>
-
+src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png"
+alt="Website Owner">
+<h2 class="owner-name">𓆩❍Ꮿη̽e꧊ꝛ͢𓂃𖡼</h2>
+<p>Ubaidullah BaLoch</p>
 </section>
+
 </main>
 
 
-<!-- SECOND PAGE: SAKURA ANIMATION -->
+<!-- SAKURA INTRO PAGE -->
 
 <section id="sakura-page">
 
-<button class="back-button"
-id="back-button">
-← Back Home
-</button>
+<button class="back-button" id="sakura-back">← Back Home</button>
 
 <div class="haiku" lang="jp">
 花は散り<br>
@@ -346,80 +322,158 @@ id="back-button">
 風ばかり
 </div>
 
+<!-- YOUR PHOTO REPLACES THE ORIGINAL BOY -->
+
 <img class="person"
-src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/person.png"
-alt="man">
+src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png"
+alt="Ubaidullah BaLoch">
 
 <div class="block">
-
 <img class="girl"
 src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/girl.png"
 alt="girl">
 
-<img
+<img class="roof"
 src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/bg.png"
-alt="roof"
-class="roof">
-
+alt="roof">
 </div>
 
 <canvas id="scene"></canvas>
 
+<div class="intro-text">
+Welcome to UMRANI TV 🌸
+</div>
+
 </section>
 
 
-<!-- HOME PAGE JAVASCRIPT -->
+<!-- CHANNELS PAGE -->
+
+<section id="channels-page">
+
+<header class="channel-header">
+<button class="back-button" id="channels-back">← Back Home</button>
+<h1>𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</h1>
+<p>Enjoy Your Favourite Channels 📺</p>
+</header>
+
+<h2>📺 Select Your Channel</h2>
+
+<div class="channel-grid">
+
+<div class="channel" onclick="playChannel('channel1')">
+<h3>Channel 01</h3>
+<p>▶ Watch Live</p>
+</div>
+
+<div class="channel" onclick="playChannel('channel2')">
+<h3>Channel 02</h3>
+<p>▶ Watch Live</p>
+</div>
+
+<div class="channel" onclick="playChannel('channel3')">
+<h3>Channel 03</h3>
+<p>▶ Watch Live</p>
+</div>
+
+<div class="channel" onclick="playChannel('channel4')">
+<h3>Channel 04</h3>
+<p>▶ Watch Live</p>
+</div>
+
+</div>
+
+<div class="player" id="player">
+<h2>Select a Channel</h2>
+<p>Choose any channel to watch.</p>
+</div>
+
+</section>
+
 
 <script>
-const ownerButton=document.getElementById('owner-button');
-const ownerPanel=document.getElementById('owner-panel');
 
-ownerButton.addEventListener('click',()=>{
-const isOpen=ownerPanel.classList.toggle('show');
+/* OWNER BUTTON */
 
-ownerButton.setAttribute(
-'aria-expanded',
-String(isOpen)
-);
+document.getElementById("owner-button").onclick=()=>{
+document.getElementById("owner-panel").classList.toggle("show");
+};
 
-if(isOpen){
-ownerPanel.scrollIntoView({
-behavior:'smooth',
-block:'nearest'
-});
+
+/* PAGE TRANSITION */
+
+const home=document.getElementById("home-page");
+const sakura=document.getElementById("sakura-page");
+const channels=document.getElementById("channels-page");
+
+let introTimer=null;
+
+document.getElementById("channels-button").onclick=()=>{
+
+home.style.display="none";
+channels.classList.remove("active");
+sakura.classList.add("active");
+
+resizeSakura();
+
+clearTimeout(introTimer);
+
+introTimer=setTimeout(()=>{
+
+sakura.classList.remove("active");
+channels.classList.add("active");
+
+},5000);
+
+};
+
+function goHome(){
+
+clearTimeout(introTimer);
+
+sakura.classList.remove("active");
+channels.classList.remove("active");
+home.style.display="flex";
+
 }
-});
+
+document.getElementById("sakura-back").onclick=goHome;
+document.getElementById("channels-back").onclick=goHome;
 
 
-/* PAGE SWITCHING */
+/* CHANNEL PLAYER */
 
-const homePage=document.getElementById('home-page');
-const sakuraPage=document.getElementById('sakura-page');
+const channelLinks={
+channel1:"",
+channel2:"",
+channel3:"",
+channel4:""
+};
 
-document.getElementById('channels-button')
-.addEventListener('click',()=>{
+function playChannel(id){
 
-homePage.style.display='none';
-sakuraPage.classList.add('active');
+const url=channelLinks[id];
+const player=document.getElementById("player");
 
-if(typeof resize==='function'){
-resize();
+if(!url){
+player.innerHTML=
+"<h2>Channel Not Available</h2><p>Please add a valid streaming link for this channel.</p>";
+return;
 }
 
-});
+player.innerHTML=`
+<h2>Now Playing</h2>
+<video controls autoplay playsinline>
+<source src="${url}" type="application/x-mpegURL">
+Your browser does not support this video.
+</video>`;
 
-document.getElementById('back-button')
-.addEventListener('click',()=>{
-
-sakuraPage.classList.remove('active');
-homePage.style.display='flex';
-
-});
+}
 
 </script>
 
 
-<!-- ORIGINAL TUBES BACKGROUND -->
+<!-- ANIMATED TUBES BACKGROUND -->
 
 <script type="module">
 
@@ -435,12 +489,7 @@ tubes:{
 colors:["#00eaff","#ff00ff","#00ff88"],
 lights:{
 intensity:200,
-colors:[
-"#00eaff",
-"#ff00aa",
-"#ffae00",
-"#00ae5d"
-]
+colors:["#00eaff","#ff00aa","#ffae00","#00ae5d"]
 }
 }
 }
@@ -463,15 +512,13 @@ app.tubes.setColors([color(),color()]);
 document.body.addEventListener("click",randomColors);
 
 }catch(error){
-
-console.warn("Animated background could not load.",error);
-
+console.warn("Background could not load",error);
 }
 
 </script>
 
 
-<!-- ORIGINAL SAKURA ANIMATION JAVASCRIPT -->
+<!-- SAKURA FLOWER ANIMATION -->
 
 <script>
 
@@ -481,73 +528,56 @@ const ctx=canvas.getContext("2d");
 let width=0;
 let height=0;
 let particles=[];
+let animationStarted=false;
 
 const settings={
-
 bgColor:"#ffffff",
-
 minWind:1,
 maxWind:10,
-
 minSize:14,
 maxSize:38,
-
 emitterY:0.15,
 emitterSpread:0.85,
-
 gravity:0.6,
 turbulence:0.8,
-
 rotationSpeed:0,
 tumbleStrength:0.4,
 staticTilt:0,
-
 particleCount:150,
-
 direction:-1
-
 };
 
 const cache={
-
 minSize:0,
 maxSize:0,
 minWind:0,
 maxWind:0,
 tiltRad:0
-
 };
 
 function updateCache(){
 
 cache.minSize=Math.min(settings.minSize,settings.maxSize);
 cache.maxSize=Math.max(settings.minSize,settings.maxSize);
-
 cache.minWind=Math.min(settings.minWind,settings.maxWind);
 cache.maxWind=Math.max(settings.minWind,settings.maxWind);
-
-cache.tiltRad=(settings.staticTilt*Math.PI)/180;
+cache.tiltRad=settings.staticTilt*Math.PI/180;
 
 }
 
 function createDefaultImage(){
 
 const tempCanvas=document.createElement("canvas");
-
 tempCanvas.width=128;
 tempCanvas.height=128;
 
 const tCtx=tempCanvas.getContext("2d");
-
 tCtx.scale(2,2);
 
 tCtx.beginPath();
-
 tCtx.moveTo(32,5);
-
 tCtx.quadraticCurveTo(5,32,32,59);
 tCtx.quadraticCurveTo(59,32,32,5);
-
 tCtx.fillStyle="#d66161";
 tCtx.fill();
 
@@ -556,14 +586,11 @@ tCtx.lineWidth=2;
 tCtx.stroke();
 
 tCtx.beginPath();
-
 tCtx.moveTo(32,5);
 tCtx.lineTo(32,59);
-
 tCtx.stroke();
 
 const img=new Image();
-
 img.src=tempCanvas.toDataURL();
 
 return img;
@@ -571,7 +598,6 @@ return img;
 }
 
 const particleImage=createDefaultImage();
-
 
 function rotateVector(x,y,z,ax,ay,az){
 
@@ -593,36 +619,29 @@ cos=Math.cos(ax);
 sin=Math.sin(ax);
 
 return{
-
 x:x2,
 y:y2*cos-z2*sin,
 z:y2*sin+z2*cos
-
 };
 
 }
 
-
 class Particle{
 
 constructor(initOnScreen=false){
-
 this.reset(initOnScreen);
-
 }
 
 reset(initOnScreen=false){
 
 this.image=particleImage;
 
-this.width=
-cache.minSize+
+this.width=cache.minSize+
 Math.random()*(cache.maxSize-cache.minSize);
 
 this.height=this.width;
 
 const centerY=height*settings.emitterY;
-
 const spreadHeight=height*settings.emitterSpread;
 
 const minY=centerY-spreadHeight/2;
@@ -631,48 +650,29 @@ const maxY=centerY+spreadHeight/2;
 this.y=minY+Math.random()*(maxY-minY);
 
 if(initOnScreen){
-
 this.x=Math.random()*width;
-
 }else{
-
-this.x=
-settings.direction===-1
-?width+this.width+Math.random()*width
-:-this.width-Math.random()*width;
-
+this.x=width+this.width+Math.random()*width;
 }
 
 const sizeFactor=
 (this.width-cache.minSize)/
 (cache.maxSize-cache.minSize||1);
 
-this.windFactor=
-1-(sizeFactor*0.5+Math.random()*0.5);
-
-this.windFactor=Math.max(
-0.1,
-Math.min(1,this.windFactor)
-);
+this.windFactor=1-(sizeFactor*.5+Math.random()*.5);
+this.windFactor=Math.max(.1,Math.min(1,this.windFactor));
 
 this.vx=0;
 this.vy=0;
-
 this.waveOffset=Math.random()*Math.PI*2;
-
 this.angleZ=Math.random()*Math.PI*2;
-
-this.spinZ=
-(Math.random()-0.5)*settings.rotationSpeed;
-
+this.spinZ=(Math.random()-.5)*settings.rotationSpeed;
 this.angleX=0;
 this.angleY=0;
-
-this.spinX=(Math.random()-0.5)*0.1;
-this.spinY=(Math.random()-0.5)*0.1;
+this.spinX=(Math.random()-.5)*.1;
+this.spinY=(Math.random()-.5)*.1;
 
 }
-
 
 update(){
 
@@ -680,32 +680,25 @@ const targetSpeed=
 cache.minWind+
 (cache.maxWind-cache.minWind)*this.windFactor;
 
-this.vx+=(targetSpeed-this.vx)*0.1;
-
+this.vx+=(targetSpeed-this.vx)*.1;
 this.x+=this.vx*settings.direction;
 
 const gravityMod=1.5-this.windFactor;
-
-this.vy+=settings.gravity*0.05*gravityMod;
+this.vy+=settings.gravity*.05*gravityMod;
 
 const wave=Math.sin(
-this.x*0.01*settings.direction+this.waveOffset
+this.x*.01*settings.direction+this.waveOffset
 );
 
-this.vy+=wave*settings.turbulence*0.05;
-
-this.vy*=0.98;
-
+this.vy+=wave*settings.turbulence*.05;
+this.vy*=.98;
 this.y+=this.vy;
 
-this.angleZ+=this.spinZ+this.vx*0.002;
+this.angleZ+=this.spinZ+this.vx*.002;
 
 if(settings.tumbleStrength>0){
-
 this.angleX+=this.spinX*settings.tumbleStrength;
-
 this.angleY+=this.spinY*settings.tumbleStrength;
-
 }
 
 const buffer=200;
@@ -715,18 +708,11 @@ settings.direction===-1
 ?this.x < -buffer
 :this.x > width+buffer;
 
-if(
-outByX||
-this.y>height+buffer||
-this.y < -buffer
-){
-
+if(outByX||this.y>height+buffer||this.y < -buffer){
 this.reset(false);
-
 }
 
 }
-
 
 draw(){
 
@@ -745,17 +731,8 @@ this.angleZ
 );
 
 ctx.save();
-
 ctx.translate(this.x,this.y);
-
-ctx.transform(
-vecU.x,
-vecU.y,
-vecV.x,
-vecV.y,
-0,
-0
-);
+ctx.transform(vecU.x,vecU.y,vecV.x,vecV.y,0,0);
 
 ctx.drawImage(
 this.image,
@@ -771,8 +748,7 @@ ctx.restore();
 
 }
 
-
-function resize(){
+function resizeSakura(){
 
 width=canvas.width=window.innerWidth;
 height=canvas.height=window.innerHeight;
@@ -780,8 +756,13 @@ height=canvas.height=window.innerHeight;
 ctx.imageSmoothingEnabled=true;
 ctx.imageSmoothingQuality="high";
 
+if(!animationStarted){
+updateCache();
+initParticles();
+animationStarted=true;
 }
 
+}
 
 function initParticles(){
 
@@ -789,47 +770,33 @@ particles=[];
 
 for(let i=0;i<settings.particleCount;i++){
 
-const particle=new Particle(false);
-
-particle.x+=Math.random()*width*1.5;
-
+const particle=new Particle(true);
 particles.push(particle);
 
 }
 
 }
 
-
 function animate(){
 
 ctx.fillStyle=settings.bgColor;
-
 ctx.fillRect(0,0,width,height);
 
 for(const particle of particles){
-
 particle.update();
 particle.draw();
-
 }
 
 requestAnimationFrame(animate);
 
 }
 
-
-function start(){
-
 updateCache();
-resize();
+resizeSakura();
 initParticles();
 animate();
 
-window.addEventListener("resize",resize);
-
-}
-
-start();
+window.addEventListener("resize",resizeSakura);
 
 </script>
 
