@@ -19,7 +19,7 @@ window.TV_CHANNELS = [
   {
     name: "Geo News",
     icon: "📡",
-    url: "PASTE_GEO_STREAM_LINK_HERE"
+    url: "https://www.youtube.com/live/t3fvgmDDmdc?si=wAOMf7DRz6Xm-dPp"
   },
 
   {
