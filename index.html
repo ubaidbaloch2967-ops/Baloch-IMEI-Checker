@@ -2,72 +2,144 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umrani TV</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
-#canvas{position:fixed;inset:0;width:100%;height:100%;z-index:1}
-.box{position:relative;z-index:2;min-height:100vh;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px}
-h1{margin:0;font-family:Arial Black,Arial,sans-serif;font-weight:900;line-height:.95}
-.ubaid{font-size:clamp(52px,13vw,85px);color:#ff3300;text-shadow:0 0 20px red,0 0 40px orange,0 0 70px red}
-.moviz{font-size:clamp(32px,8vw,48px);margin-top:8px;color:#ffcc00;text-shadow:0 0 15px orange,0 0 30px red;letter-spacing:3px}
-.tag{margin-top:18px;letter-spacing:1px;font-size:15px}
-.btns{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-a.btn,button.btn{padding:12px 23px;border:2px solid #00eaff;color:#00eaff;border-radius:30px;text-decoration:none;font-weight:bold;background:rgba(0,0,0,.72);font-size:14px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
-a.btn:hover,button.btn:hover{transform:translateY(-3px);box-shadow:0 0 18px currentColor}
-a.btn2{border-color:#ffaa00;color:#ffaa00}
-button.btn-owner{border-color:#ff55e8;color:#ff8cf0}
-.owner-panel{display:none;width:min(360px,100%);margin-top:26px;padding:20px;background:rgba(10,10,18,.92);border:1px solid #ff55e8;border-radius:20px;box-shadow:0 0 25px #ff00d433;animation:panelIn .35s ease both}
-.owner-panel.show{display:block}
-.owner-photo{display:block;width:190px;height:190px;max-width:70vw;max-height:70vw;object-fit:cover;border-radius:50%;margin:0 auto 15px;border:3px solid #00eaff;box-shadow:0 0 22px #00eaff88;animation:floatPhoto 3s ease-in-out infinite}
-.owner-name{font-size:23px;color:#ffcc00;margin:8px 0}
-.owner-caption{font-size:13px;color:#ddd;line-height:1.5;margin:0}
-@keyframes floatPhoto{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
-@keyframes panelIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#000;color:#fff;overflow-x:hidden}
+#scene{position:fixed;inset:0;width:100vw;height:100dvh;z-index:1;pointer-events:none}
+
+/* INTRO */
+#intro{position:relative;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,.2),#000 95%)}
+.top-text{font-family:"Yu Mincho",serif;font-size:32px;line-height:1.4;color:#111;background:rgba(255,255,255,.9);padding:10px 18px;border-radius:14px;filter:drop-shadow(2px 2px 2px rgba(0,0,0,.2))}
+.top-text small{font-size:18px}
+.person{width:230px;max-width:70vw;margin:10px 0 -10px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.5));position:relative;z-index:3}
+.btn-row{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;justify-content:center}
+.btn-row button{padding:12px 20px;border-radius:30px;border:2px solid #ff2d55;background:#111;color:#fff;font-weight:800;cursor:pointer}
+.btn-row button.gold{border-color:#ffb300;color:#ffcc00}
+#ownerCard{display:none;margin-top:18px;width:320px;max-width:90vw;background:#0a0a1a;border:2px solid #ff2d55;border-radius:20px;padding:18px;box-shadow:0 0 30px #ff2d55aa;animation:pop .5s ease}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+#ownerCard img{width:160px;height:160px;object-fit:cover;border-radius:50%;border:3px solid #00e5ff;box-shadow:0 0 20px #00e5ff}
+#ownerCard h2{color:#ffcc00;margin-top:10px;font-family:serif}
+#ownerCard p{color:#ccc;font-size:14px;margin-top:4px}
+
+/* CHANNELS */
+#channels{display:none;min-height:100dvh;background:#0f0f1a;padding:15px;animation:slide .5s ease}
+@keyframes slide{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+#channels header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:900}.logo span{color:#ff2d55}
+.back{background:#ff2d55;border:none;color:#fff;padding:8px 14px;border-radius:10px}
+.hero{margin:18px 0}.hero h1{font-size:30px}.hero h1 span{color:#ff2d55}.hero p{color:#aaa;margin-top:6px}
+.search{width:100%;padding:13px;border-radius:12px;border:none;background:#2a2a3d;color:#fff;margin:12px 0}
+.cats{display:flex;gap:10px;overflow-x:auto}.cats button{padding:9px 18px;border-radius:20px;border:none;background:#2a2a3d;color:#fff;white-space:nowrap}.cats button.active{background:#ff2d55}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.card{background:#1e1e32;border-radius:12px;overflow:hidden;cursor:pointer;text-align:center;padding-bottom:10px}
+.card img{width:100%;height:100px;object-fit:cover}
+.card p{font-size:13px;margin-top:8px}.live{font-size:10px;background:red;padding:2px 6px;border-radius:10px}
+#playerBox{display:none;position:fixed;inset:0;background:#000;z-index:100;flex-direction:column}
+#playerBox .top{padding:12px;display:flex;justify-content:space-between}
+#playerBox button{background:#ff2d55;border:none;color:#fff;padding:8px 14px;border-radius:8px}
+video{width:100%;flex:1;background:#000}
+.block{position:absolute;right:0;bottom:0;opacity:.25;pointer-events:none;z-index:0}
+.block img{width:180px}
 </style>
 </head>
 <body>
-<canvas id="canvas" aria-hidden="true"></canvas>
-<main class="box">
-  <h1 class="umrani">𓆩UM꧊ꝛ͢𓂃aNi𖡼</h1>
-  <h1 class="tv">TV</h1>
-  <div class="tag">Open Website and Enjoy TV 🍿🎥</div>
-  <div class="btns">
-    <button class="btn btn-owner" id="owner-button" type="button" aria-expanded="false" aria-controls="owner-panel">Website Owner</button>
-    <a class="btn btn2" href="Movies.html">Show Channels</a>
+
+<canvas id="scene"></canvas>
+
+<!-- INTRO / SAKURA -->
+<div id="intro">
+  <div class="top-text">Enjoy our website<br><small>𓆩❍Ꮿη̽e꧊ꝛ͢𓂃𖡼<br>𓆩UM꧊ꝛ͢𓂃aNi𖡼</small></div>
+
+  <img class="person" src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png" alt="Ubaidullah Baloch">
+
+  <div class="btn-row">
+    <button onclick="showOwner()">Website Owner</button>
+    <button class="gold" onclick="showChannels()">Show Channels</button>
   </div>
-  <section class="owner-panel" id="owner-panel" aria-label="Website owner profile">
-    <!-- Change ubaid.jpg below to the exact image filename you uploaded to GitHub. -->
-    <img class="owner-photo" src="ubaid.jpg" alt="Website owner photo" onerror="this.onerror=null;this.src='https://placehold.co/400x400/171820/00eaff?text=Check+Photo+Filename'">
-    <h2 class="owner-name">𓆩❍Ꮿη̽e꧊ꝛ͢𓂃𖡼</h2>
-    <p class="owner-caption">Ubaidullah BaLoch </p>
-  </section>
-</main>
+
+  <div id="ownerCard">
+    <img src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png" alt="Owner">
+    <h2>𓆩Owner𓂃𖡼</h2>
+    <p>Ubaidullah BaLoch</p>
+    <p style="color:#25D366;margin-top:8px">Owner - Umrani TV</p>
+  </div>
+</div>
+
+<!-- CHANNELS PAGE -->
+<div id="channels">
+  <header><div class="logo">UMRANI <span>TV</span></div><button class="back" onclick="goHome()">← Back</button></header>
+  <div class="hero"><h1>Watch <span>live</span> anywhere.</h1><p>● Live now • Umrani TV</p>
+  <input class="search" id="search" placeholder="Search channels..." onkeyup="render()">
+  <div class="cats"><button class="active" onclick="setCat('All',this)">All</button><button onclick="setCat('Sports',this)">Sports</button><button onclick="setCat('News',this)">News</button><button onclick="setCat('Entertainment',this)">Entertainment</button></div>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div id="playerBox"><div class="top"><span id="playingName">Playing</span><button onclick="closePlayer()">✕ Close</button></div><video id="video" controls autoplay></video></div>
+
 <script>
-const ownerButton=document.getElementById('owner-button');
-const ownerPanel=document.getElementById('owner-panel');
-ownerButton.addEventListener('click',()=>{
-  const isOpen=ownerPanel.classList.toggle('show');
-  ownerButton.setAttribute('aria-expanded',String(isOpen));
-  if(isOpen) ownerPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
-});
-</script>
-<script type="module">
-import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
-try {
-  const app=TubesCursor(document.getElementById("canvas"),{
-    tubes:{colors:["#00eaff","#ff00ff","#00ff88"],lights:{intensity:200,colors:["#00eaff","#ff00aa","#ffae00","#00ae5d"]}}
+// --- Sakura Petals - apna simple animation ---
+const canvas=document.getElementById('scene'); const ctx=canvas.getContext('2d');
+let W,H,petals=[];
+function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight}
+resize(); addEventListener('resize',resize);
+for(let i=0;i<45;i++){petals.push({x:Math.random()*W,y:Math.random()*H,s:6+Math.random()*10,sp:0.8+Math.random()*1.8,sw:Math.random()*2,ang:Math.random()*6.28})}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  petals.forEach(p=>{
+    p.y+=p.sp; p.x+=Math.sin(p.ang)*0.8; p.ang+=0.02;
+    if(p.y>H){p.y=-20;p.x=Math.random()*W}
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.ang); ctx.fillStyle='#ff5a5a';
+    ctx.beginPath(); ctx.ellipse(0,0,p.s,p.s/1.8,0,0,Math.PI*2); ctx.fill(); ctx.restore();
   });
-  function randomColors(){
-    if(app&&app.tubes){
-      const color=()=>"#"+Math.floor(Math.random()*16777215).toString(16).padStart(6,"0");
-      app.tubes.setColors([color(),color()]);
-    }
-  }
-  document.body.addEventListener("click",randomColors);
-} catch(error) { console.warn("Animated background could not load.",error); }
+  requestAnimationFrame(draw);
+}
+draw();
+
+// --- Pages ---
+function showOwner(){
+  let c=document.getElementById('ownerCard');
+  c.style.display=c.style.display=='block'?'none':'block';
+  c.scrollIntoView({behavior:'smooth'});
+}
+function showChannels(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('channels').style.display='block';
+  window.scrollTo(0,0);
+}
+function goHome(){
+  document.getElementById('channels').style.display='none';
+  document.getElementById('intro').style.display='flex';
+}
+
+// --- Channels ---
+let channels=[
+ {name:"Umrani Sports HD",cat:"Sports",img:"https://via.placeholder.com/300x150/ff2d55/fff?text=SPORTS",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"},
+ {name:"Umrani News 24",cat:"News",img:"https://via.placeholder.com/300x150/007bff/fff?text=NEWS",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"},
+ {name:"Abu Dhabi T10 2026",cat:"Sports",img:"https://via.placeholder.com/300x150/ff9800/fff?text=T10",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"},
+ {name:"Umrani Entertainment",cat:"Entertainment",img:"https://via.placeholder.com/300x150/28a745/fff?text=ENTERTAINMENT",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"},
+];
+let curCat="All";
+function setCat(c,btn){curCat=c;document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render()}
+function render(){
+  let q=document.getElementById('search').value.toLowerCase();
+  let grid=document.getElementById('grid'); grid.innerHTML="";
+  channels.filter(c=>(curCat=="All"||c.cat==curCat)&&c.name.toLowerCase().includes(q)).forEach(c=>{
+    grid.innerHTML+=`<div class="card" onclick="playChannel('${c.url}','${c.name}')"><img src="${c.img}"><p><span class="live">LIVE</span><br>${c.name}</p></div>`;
+  });
+}
+function playChannel(url,name){
+  document.getElementById('playerBox').style.display='flex';
+  document.getElementById('playingName').innerText=name;
+  let v=document.getElementById('video');
+  if(Hls.isSupported()){let hls=new Hls();hls.loadSource(url);hls.attachMedia(v)}
+  else{v.src=url}
+}
+function closePlayer(){document.getElementById('playerBox').style.display='none';document.getElementById('video').pause()}
+render();
 </script>
 </body>
 </html>
