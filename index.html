@@ -28,6 +28,39 @@ h1{margin:0;font-family:Arial Black,Arial,sans-serif;font-weight:900;line-height
   color:#ffcc00;text-shadow:0 0 15px orange,0 0 30px red;
   letter-spacing:3px
 }
+
+/* MOVING BUTTERFLIES */
+.brand-area{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.butterfly{
+  position:absolute;
+  z-index:5;
+  font-size:clamp(23px,5vw,38px);
+  pointer-events:none;
+  filter:drop-shadow(0 0 8px #ff55e8);
+  animation:butterflyFly 3s ease-in-out infinite,
+            wingFlutter .35s ease-in-out infinite alternate;
+}
+.butterfly.one{top:0;left:-45px;animation-delay:0s}
+.butterfly.two{top:35px;right:-48px;animation-delay:.7s}
+.butterfly.three{bottom:0;left:-28px;animation-delay:1.2s}
+.butterfly.four{bottom:5px;right:-30px;animation-delay:.4s}
+
+@keyframes butterflyFly{
+  0%,100%{translate:0 0}
+  25%{translate:12px -15px}
+  50%{translate:0 -25px}
+  75%{translate:-12px -10px}
+}
+@keyframes wingFlutter{
+  from{scale:1 .8;rotate:-12deg}
+  to{scale:1.15 1;rotate:12deg}
+}
+
 .tag{margin-top:18px;letter-spacing:1px;font-size:15px}
 .btns{
   margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;
@@ -107,26 +140,30 @@ button.btn-owner{border-color:#ff55e8;color:#ff8cf0}
 }
 .sakura-scene{
   position:absolute;z-index:3;bottom:0;left:50%;
-  transform:translateX(-50%);width:100%;height:82%;
+  transform:translateX(-50%);width:100%;height:90%;
   display:flex;align-items:flex-end;justify-content:center;
   gap:clamp(4px,3vw,35px)
 }
-.sakura-person,.sakura-girl{
-  display:block;width:auto;height:70vh;max-height:78%;
-  max-width:47%;object-fit:contain;object-position:bottom;
-  filter:drop-shadow(0 0 12px rgba(0,0,0,.65))
-}
+
+/* YOUR PHOTO MADE BIGGER */
 .sakura-person{
-  height:70vh;
+  display:block;width:auto;height:82vh;max-height:90%;
+  max-width:52%;object-fit:contain;object-position:bottom;
+  filter:drop-shadow(0 0 12px rgba(0,0,0,.65));
   animation:personEnter 1.1s ease both
 }
+
+/* SAKURA GIRL */
 .sakura-girl{
-  height:70vh;
+  display:block;width:auto;height:70vh;max-height:78%;
+  max-width:47%;object-fit:contain;object-position:bottom;
+  filter:drop-shadow(0 0 12px rgba(0,0,0,.65));
   animation:girlEnter 1.1s ease both
 }
+
 @keyframes personEnter{
   from{opacity:0;transform:translateX(-35px) scale(.85)}
-  to{opacity:1;transform:translateX(0) scale(1.15)}
+  to{opacity:1;transform:translateX(0) scale(1)}
 }
 @keyframes girlEnter{
   from{opacity:0;transform:translateX(35px) scale(.85)}
@@ -186,10 +223,15 @@ button.btn-owner{border-color:#ff55e8;color:#ff8cf0}
 
 @media(max-width:600px){
   .box{padding:20px 14px}
-  .sakura-scene{height:76%;gap:0}
-  .sakura-person,.sakura-girl{
-    height:58vh;max-height:68%;max-width:49%
+  .sakura-scene{height:86%;gap:0}
+
+  .sakura-person{
+    height:68vh;max-height:85%;max-width:52%
   }
+  .sakura-girl{
+    height:58vh;max-height:68%;max-width:48%
+  }
+
   .welcome{top:8%;font-size:clamp(19px,5vw,27px)}
   .japanese{right:1%;top:30%;font-size:17px;letter-spacing:5px}
   #channelList{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -197,8 +239,10 @@ button.btn-owner{border-color:#ff55e8;color:#ff8cf0}
   #channelsPage{padding:18px 12px}
 }
 @media(max-width:360px){
-  .sakura-person,.sakura-girl{height:52vh}
+  .sakura-person{height:62vh}
+  .sakura-girl{height:52vh}
   .welcome{font-size:18px}
+  .butterfly{font-size:22px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -212,8 +256,17 @@ button.btn-owner{border-color:#ff55e8;color:#ff8cf0}
 
 <!-- HOME PAGE -->
 <main class="box" id="homePage">
-  <h1 class="umrani">𓆩UM꧊ꝛ͢𓂃aNi𖡼</h1>
-  <h1 class="tv">TV</h1>
+
+  <div class="brand-area">
+    <span class="butterfly one">🦋</span>
+    <span class="butterfly two">🦋</span>
+    <span class="butterfly three">🦋</span>
+    <span class="butterfly four">🦋</span>
+
+    <h1 class="umrani">𓆩UM꧊ꝛ͢𓂃aNi𖡼</h1>
+    <h1 class="tv">TV</h1>
+  </div>
+
   <div class="tag">Open Website and Enjoy TV 🍿🎥</div>
 
   <div class="btns">
@@ -246,12 +299,10 @@ button.btn-owner{border-color:#ff55e8;color:#ff8cf0}
   <div class="japanese">さくら 花びら 春の夜</div>
 
   <div class="sakura-scene">
-    <!-- Your photo -->
     <img class="sakura-person"
       src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png"
       alt="Ubaidullah">
 
-    <!-- Sakura girl -->
     <img class="sakura-girl"
       src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/girl.png"
       alt="Sakura girl">
