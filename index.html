@@ -1,803 +1,560 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</title>
 
 <style>
-*{box-sizing:border-box}
-html,body{
-margin:0;
-width:100%;
-min-height:100%;
-background:#000;
-color:white;
-font-family:Arial,Helvetica,sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-body{overflow-x:hidden}
-#canvas{
-position:fixed;
-inset:0;
-width:100%;
-height:100%;
-z-index:1;
-pointer-events:none;
+
+body {
+  min-height: 100vh;
+  background: #050505;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
-.home-page{
-position:relative;
-z-index:2;
-min-height:100dvh;
-width:100%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:24px 15px;
+
+button {
+  font: inherit;
 }
-.umrani{
-font-size:clamp(38px,11vw,85px);
-color:#ff3300;
-text-shadow:0 0 20px red,0 0 40px orange,0 0 70px red;
-margin:0;
-font-weight:900;
+
+.page {
+  min-height: 100vh;
+  display: none;
 }
-.tv{
-font-size:clamp(32px,8vw,48px);
-margin:8px 0 0;
-color:#ffcc00;
-text-shadow:0 0 15px orange,0 0 30px red;
-letter-spacing:3px;
+
+.page.active {
+  display: flex;
 }
-.tag{margin-top:18px;font-size:15px}
-.btns{
-margin-top:32px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-justify-content:center;
+
+/* HOME PAGE */
+#home {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 25px 15px;
+  background:
+    radial-gradient(circle at center, #171717 0%, #050505 65%);
 }
-.btn{
-padding:12px 23px;
-border:2px solid #00eaff;
-color:#00eaff;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
-background:rgba(0,0,0,.8);
-font-size:14px;
-cursor:pointer;
+
+.main-title {
+  color: #00ffff;
+  font-size: clamp(25px, 6vw, 48px);
+  text-shadow: 0 0 10px #00ffff, 0 0 25px #0088ff;
+  margin-bottom: 35px;
+  overflow-wrap: anywhere;
 }
-.btn2{border-color:#ffaa00;color:#ffaa00}
-.owner-panel{
-display:none;
-width:min(360px,100%);
-margin-top:26px;
-padding:20px;
-background:rgba(10,10,18,.95);
-border:1px solid #ff55e8;
-border-radius:20px;
+
+.main-btn {
+  width: min(260px, 85vw);
+  padding: 14px 18px;
+  margin: 10px;
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  background: transparent;
+  color: #00ffff;
+  font-size: 17px;
+  cursor: pointer;
+  box-shadow: 0 0 12px #00ffff55;
+  transition: .25s;
 }
-.owner-panel.show{display:block}
-.owner-photo{
-width:190px;
-height:190px;
-max-width:70vw;
-object-fit:cover;
-border-radius:50%;
-border:3px solid #00eaff;
+
+.main-btn:hover {
+  background: #00ffff;
+  color: black;
+  box-shadow: 0 0 25px #00ffff;
 }
-.owner-name{color:#ffcc00}
+
+/* OWNER PANEL */
+#ownerPanel {
+  display: none;
+  width: min(340px, 90vw);
+  margin-top: 20px;
+  padding: 22px;
+  border: 1px solid #00ffff;
+  border-radius: 16px;
+  background: #101010;
+  box-shadow: 0 0 20px #00ffff44;
+}
+
+#ownerPanel img {
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #00ffff;
+  margin-bottom: 12px;
+}
+
+#ownerPanel h2 {
+  color: #00ffff;
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+
+#ownerPanel p {
+  color: #ccc;
+}
 
 /* SAKURA INTRO */
-
-#sakura-page{
-display:none;
-position:fixed;
-inset:0;
-width:100%;
-height:100dvh;
-overflow:hidden;
-background:#fff;
-color:#111;
-z-index:10;
-}
-#sakura-page.active{display:block}
-
-#scene{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-z-index:0;
+#sakura {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  overflow: hidden;
+  background: #080611 url("https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/bg.png") center/cover no-repeat;
 }
 
-.person{
-position:absolute;
-right:45%;
-bottom:0;
-height:50vh;
-max-width:48%;
-object-fit:contain;
-object-position:bottom;
-z-index:2;
+#sakura.active {
+  display: flex;
 }
 
-.block{
-height:100%;
-position:absolute;
-width:50%;
-right:0;
-z-index:1;
-display:flex;
-justify-content:flex-end;
-align-items:flex-end;
+#petalCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.roof{
-display:block;
-align-self:flex-start;
-height:60vh;
-width:auto;
-max-width:55vw;
-object-fit:contain;
+.sakura-title {
+  position: absolute;
+  z-index: 5;
+  top: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: clamp(18px, 4vw, 30px);
+  text-shadow: 0 0 12px #ff80c8;
+  white-space: nowrap;
 }
 
-.girl{
-position:absolute;
-left:10%;
-bottom:0;
-height:70vh;
-max-width:50vw;
-width:auto;
-object-fit:contain;
+.sakura-scene {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 88%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(5px, 4vw, 45px);
+  z-index: 2;
 }
 
-.haiku{
-position:absolute;
-top:5dvh;
-left:5%;
-writing-mode:vertical-rl;
-text-orientation:mixed;
-font-family:"Yu Mincho","Hiragino Mincho ProN","MS Mincho",serif;
-font-size:clamp(18px,4vw,32px);
-line-height:2.2;
-color:#111;
-letter-spacing:.08em;
-z-index:3;
+.sakura-person,
+.sakura-girl {
+  display: block;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 0 12px #0008);
 }
 
-.intro-text{
-position:absolute;
-bottom:15px;
-left:50%;
-transform:translateX(-50%);
-z-index:5;
-color:#111;
-font-weight:bold;
-font-size:13px;
-background:#ffffffbb;
-padding:8px 15px;
-border-radius:20px;
-white-space:nowrap;
+.sakura-person {
+  height: 70vh;
+  max-width: 46%;
 }
 
-.back-button{
-position:absolute;
-top:12px;
-left:12px;
-z-index:20;
-padding:10px 16px;
-border:2px solid #00aabb;
-border-radius:25px;
-background:#111;
-color:#00eaff;
-font-weight:bold;
-cursor:pointer;
+.sakura-girl {
+  height: 70vh;
+  max-width: 46%;
+}
+
+.loading-text {
+  position: absolute;
+  z-index: 6;
+  bottom: 18px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  text-shadow: 0 0 10px #ff69b4;
 }
 
 /* CHANNEL PAGE */
+#channelsPage {
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 15px;
+  background:
+    radial-gradient(circle at top, #15152a, #050505 65%);
+}
 
-#channels-page{
-display:none;
-position:fixed;
-inset:0;
-width:100%;
-height:100dvh;
-overflow-y:auto;
-z-index:15;
-background:#080808;
-color:white;
-text-align:center;
-padding-bottom:30px;
+.channels-heading {
+  color: #00ffff;
+  font-size: clamp(25px, 6vw, 38px);
+  text-align: center;
+  text-shadow: 0 0 12px #00ffff;
+  margin: 10px 0 25px;
 }
-#channels-page.active{display:block}
 
-.channel-header{
-padding:25px 12px;
-background:#111;
-border-bottom:2px solid #00eaff;
+.back-btn {
+  align-self: flex-start;
+  padding: 10px 17px;
+  border: 1px solid #00ffff;
+  border-radius: 9px;
+  color: #00ffff;
+  background: transparent;
+  cursor: pointer;
 }
-.channel-header h1{
-font-size:clamp(25px,7vw,38px);
-color:#00eaff;
-text-shadow:0 0 15px cyan;
-margin:8px;
+
+#channelList {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(145px, 100%), 1fr));
+  gap: 15px;
 }
-.channel-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:14px;
-padding:18px;
-max-width:750px;
-margin:auto;
+
+.channel-card {
+  min-width: 0;
+  min-height: 135px;
+  padding: 18px 10px;
+  border: 1px solid #00ffff66;
+  border-radius: 14px;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 0 12px #00ffff18;
+  transition: .2s;
 }
-.channel{
-background:#171717;
-border:1px solid #00eaff;
-border-radius:15px;
-padding:20px 8px;
-cursor:pointer;
-transition:.2s;
+
+.channel-card:hover {
+  border-color: #00ffff;
+  box-shadow: 0 0 18px #00ffff66;
+  transform: translateY(-3px);
 }
-.channel:hover{
-box-shadow:0 0 18px cyan;
-transform:translateY(-3px);
+
+.channel-card img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
 }
-.channel h3{
-color:#ffcc00;
-margin:5px;
-font-size:17px;
+
+.channel-emoji {
+  font-size: 48px;
+  line-height: 58px;
 }
-.channel p{
-font-size:13px;
-margin:8px 0 0;
+
+.channel-card strong {
+  font-size: 15px;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
-.player{
-padding:15px;
-margin:10px auto;
-max-width:800px;
+
+#emptyMessage {
+  display: none;
+  color: #ccc;
+  text-align: center;
+  margin: 30px 0;
 }
-.player video{
-width:100%;
-max-width:750px;
-background:#000;
-border:2px solid cyan;
-border-radius:12px;
+
+/* VIDEO PLAYER */
+#playerBox {
+  display: none;
+  width: 100%;
+  max-width: 850px;
+  margin-top: 25px;
+  padding: 12px;
+  background: #111;
+  border: 1px solid #00ffff66;
+  border-radius: 14px;
 }
-@media(min-width:700px){
-.channel-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+#playerTitle {
+  color: #00ffff;
+  margin-bottom: 12px;
+  text-align: center;
 }
-@media(max-width:380px){
-.btn{padding:10px 15px;font-size:12px}
-.person{height:43vh}
-.girl{height:55vh}
-.roof{height:45vh}
-.haiku{left:3%;font-size:17px}
+
+#tvPlayer {
+  width: 100%;
+  max-height: 65vh;
+  background: black;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .sakura-scene {
+    height: 78%;
+    gap: 2px;
+  }
+
+  .sakura-person,
+  .sakura-girl {
+    height: 57vh;
+    max-width: 49%;
+  }
+
+  .sakura-title {
+    top: 10%;
+    white-space: normal;
+    width: 90%;
+    text-align: center;
+  }
+
+  #channelList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .channel-card {
+    min-height: 120px;
+  }
+
+  #channelsPage {
+    padding: 18px 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .sakura-person,
+  .sakura-girl {
+    height: 50vh;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="canvas"></canvas>
-
 <!-- HOME -->
+<section id="home" class="page active">
+  <h1 class="main-title">𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</h1>
 
-<main class="home-page" id="home-page">
+  <button class="main-btn" onclick="toggleOwner()">
+    Website Owner
+  </button>
 
-<h1 class="umrani">𓆩UM꧊ꝛ͢𓂃aNi𖡼</h1>
-<h1 class="tv">TV</h1>
+  <div id="ownerPanel">
+    <img src="ubaid.jpg" alt="Website Owner"
+         onerror="this.style.display='none'">
+    <h2>Ubaidullah BaLoch</h2>
+    <p>Website Owner</p>
+  </div>
 
-<div class="tag">Open Website and Enjoy TV 🍿🎥</div>
-
-<div class="btns">
-<button class="btn" id="owner-button">Website Owner</button>
-<button class="btn btn2" id="channels-button">Show Channels</button>
-</div>
-
-<section class="owner-panel" id="owner-panel">
-<img class="owner-photo"
-src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png"
-alt="Website Owner">
-<h2 class="owner-name">𓆩❍Ꮿη̽e꧊ꝛ͢𓂃𖡼</h2>
-<p>Ubaidullah BaLoch</p>
+  <button class="main-btn" onclick="startSakura()">
+    Show Channels
+  </button>
 </section>
 
-</main>
+<!-- SAKURA INTRO -->
+<section id="sakura" class="page">
+  <canvas id="petalCanvas"></canvas>
 
+  <div class="sakura-title">さくら 🌸 Welcome</div>
 
-<!-- SAKURA INTRO PAGE -->
+  <div class="sakura-scene">
+    <img
+      class="sakura-person"
+      src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png"
+      alt="Ubaidullah"
+    >
 
-<section id="sakura-page">
+    <img
+      class="sakura-girl"
+      src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/girl.png"
+      alt="Sakura Girl"
+    >
+  </div>
 
-<button class="back-button" id="sakura-back">← Back Home</button>
-
-<div class="haiku" lang="jp">
-花は散り<br>
-名を覚えている<br>
-風ばかり
-</div>
-
-<!-- YOUR PHOTO REPLACES THE ORIGINAL BOY -->
-
-<img class="person"
-src="https://i.ibb.co/ZpCMYnK0/1000002505-removebg-preview.png"
-alt="Ubaidullah BaLoch">
-
-<div class="block">
-<img class="girl"
-src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/girl.png"
-alt="girl">
-
-<img class="roof"
-src="https://raw.githubusercontent.com/BlackStar1991/Pictures-for-sharing-/master/Japan/bg.png"
-alt="roof">
-</div>
-
-<canvas id="scene"></canvas>
-
-<div class="intro-text">
-Welcome to UMRANI TV 🌸
-</div>
-
+  <div class="loading-text">Loading Channels... 🌸</div>
 </section>
 
+<!-- CHANNELS -->
+<section id="channelsPage" class="page">
+  <button class="back-btn" onclick="goHome()">← Home</button>
 
-<!-- CHANNELS PAGE -->
+  <h1 class="channels-heading">𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</h1>
 
-<section id="channels-page">
+  <div id="channelList"></div>
+  <p id="emptyMessage">No channels added yet. Add channels in channels.js</p>
 
-<header class="channel-header">
-<button class="back-button" id="channels-back">← Back Home</button>
-<h1>𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</h1>
-<p>Enjoy Your Favourite Channels 📺</p>
-</header>
-
-<h2>📺 Select Your Channel</h2>
-
-<div class="channel-grid">
-
-<div class="channel" onclick="playChannel('channel1')">
-<h3>Channel 01</h3>
-<p>▶ Watch Live</p>
-</div>
-
-<div class="channel" onclick="playChannel('channel2')">
-<h3>Channel 02</h3>
-<p>▶ Watch Live</p>
-</div>
-
-<div class="channel" onclick="playChannel('channel3')">
-<h3>Channel 03</h3>
-<p>▶ Watch Live</p>
-</div>
-
-<div class="channel" onclick="playChannel('channel4')">
-<h3>Channel 04</h3>
-<p>▶ Watch Live</p>
-</div>
-
-</div>
-
-<div class="player" id="player">
-<h2>Select a Channel</h2>
-<p>Choose any channel to watch.</p>
-</div>
-
+  <div id="playerBox">
+    <h3 id="playerTitle">Now Playing</h3>
+    <video id="tvPlayer" controls playsinline></video>
+  </div>
 </section>
 
+<!-- HLS support for compatible .m3u8 streams -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<!-- Separate channel data and rendering file -->
+<script src="channels.js"></script>
 
 <script>
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
 
-/* OWNER BUTTON */
-
-document.getElementById("owner-button").onclick=()=>{
-document.getElementById("owner-panel").classList.toggle("show");
-};
-
-
-/* PAGE TRANSITION */
-
-const home=document.getElementById("home-page");
-const sakura=document.getElementById("sakura-page");
-const channels=document.getElementById("channels-page");
-
-let introTimer=null;
-
-document.getElementById("channels-button").onclick=()=>{
-
-home.style.display="none";
-channels.classList.remove("active");
-sakura.classList.add("active");
-
-resizeSakura();
-
-clearTimeout(introTimer);
-
-introTimer=setTimeout(()=>{
-
-sakura.classList.remove("active");
-channels.classList.add("active");
-
-},5000);
-
-};
-
-function goHome(){
-
-clearTimeout(introTimer);
-
-sakura.classList.remove("active");
-channels.classList.remove("active");
-home.style.display="flex";
-
+  document.getElementById(pageId).classList.add("active");
 }
 
-document.getElementById("sakura-back").onclick=goHome;
-document.getElementById("channels-back").onclick=goHome;
-
-
-/* CHANNEL PLAYER */
-
-const channelLinks={
-channel1:"",
-channel2:"",
-channel3:"",
-channel4:""
-};
-
-function playChannel(id){
-
-const url=channelLinks[id];
-const player=document.getElementById("player");
-
-if(!url){
-player.innerHTML=
-"<h2>Channel Not Available</h2><p>Please add a valid streaming link for this channel.</p>";
-return;
+function toggleOwner() {
+  const panel = document.getElementById("ownerPanel");
+  panel.style.display =
+    panel.style.display === "block" ? "none" : "block";
 }
 
-player.innerHTML=`
-<h2>Now Playing</h2>
-<video controls autoplay playsinline>
-<source src="${url}" type="application/x-mpegURL">
-Your browser does not support this video.
-</video>`;
+let introTimer = null;
 
+function startSakura() {
+  showPage("sakura");
+  startPetals();
+
+  clearTimeout(introTimer);
+
+  // Sakura intro runs for exactly 10 seconds
+  introTimer = setTimeout(() => {
+    stopPetals();
+    showPage("channelsPage");
+  }, 10000);
 }
 
-</script>
-
-
-<!-- ANIMATED TUBES BACKGROUND -->
-
-<script type="module">
-
-import TubesCursor from
-"https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
-
-try{
-
-const app=TubesCursor(
-document.getElementById("canvas"),
-{
-tubes:{
-colors:["#00eaff","#ff00ff","#00ff88"],
-lights:{
-intensity:200,
-colors:["#00eaff","#ff00aa","#ffae00","#00ae5d"]
-}
-}
-}
-);
-
-function randomColors(){
-
-if(app&&app.tubes){
-
-const color=()=>
-"#"+Math.floor(Math.random()*16777215)
-.toString(16).padStart(6,"0");
-
-app.tubes.setColors([color(),color()]);
-
+function goHome() {
+  clearTimeout(introTimer);
+  stopPetals();
+  stopVideo();
+  showPage("home");
 }
 
+/* SAKURA PETAL ANIMATION */
+const canvas = document.getElementById("petalCanvas");
+const ctx = canvas.getContext("2d");
+
+let petals = [];
+let animationFrame = null;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
 
-document.body.addEventListener("click",randomColors);
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
-}catch(error){
-console.warn("Background could not load",error);
+function makePetals() {
+  petals = [];
+
+  for (let i = 0; i < 45; i++) {
+    petals.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: 4 + Math.random() * 7,
+      speed: 0.7 + Math.random() * 1.8,
+      drift: Math.random() * 1.5 - 0.75,
+      rotation: Math.random() * 6,
+      spin: Math.random() * 0.04 - 0.02
+    });
+  }
 }
 
-</script>
+function drawPetals() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  petals.forEach(p => {
+    p.y += p.speed;
+    p.x += p.drift;
+    p.rotation += p.spin;
 
-<!-- SAKURA FLOWER ANIMATION -->
+    if (p.y > canvas.height + 15) {
+      p.y = -15;
+      p.x = Math.random() * canvas.width;
+    }
 
-<script>
+    if (p.x > canvas.width + 15) p.x = -15;
+    if (p.x < -15) p.x = canvas.width + 15;
 
-const canvas=document.getElementById("scene");
-const ctx=canvas.getContext("2d");
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotation);
+    ctx.fillStyle = "rgba(255, 160, 205, 0.85)";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, p.size * 0.65, p.size, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
 
-let width=0;
-let height=0;
-let particles=[];
-let animationStarted=false;
-
-const settings={
-bgColor:"#ffffff",
-minWind:1,
-maxWind:10,
-minSize:14,
-maxSize:38,
-emitterY:0.15,
-emitterSpread:0.85,
-gravity:0.6,
-turbulence:0.8,
-rotationSpeed:0,
-tumbleStrength:0.4,
-staticTilt:0,
-particleCount:150,
-direction:-1
-};
-
-const cache={
-minSize:0,
-maxSize:0,
-minWind:0,
-maxWind:0,
-tiltRad:0
-};
-
-function updateCache(){
-
-cache.minSize=Math.min(settings.minSize,settings.maxSize);
-cache.maxSize=Math.max(settings.minSize,settings.maxSize);
-cache.minWind=Math.min(settings.minWind,settings.maxWind);
-cache.maxWind=Math.max(settings.minWind,settings.maxWind);
-cache.tiltRad=settings.staticTilt*Math.PI/180;
-
+  animationFrame = requestAnimationFrame(drawPetals);
 }
 
-function createDefaultImage(){
+function startPetals() {
+  resizeCanvas();
+  makePetals();
 
-const tempCanvas=document.createElement("canvas");
-tempCanvas.width=128;
-tempCanvas.height=128;
-
-const tCtx=tempCanvas.getContext("2d");
-tCtx.scale(2,2);
-
-tCtx.beginPath();
-tCtx.moveTo(32,5);
-tCtx.quadraticCurveTo(5,32,32,59);
-tCtx.quadraticCurveTo(59,32,32,5);
-tCtx.fillStyle="#d66161";
-tCtx.fill();
-
-tCtx.strokeStyle="#F20404";
-tCtx.lineWidth=2;
-tCtx.stroke();
-
-tCtx.beginPath();
-tCtx.moveTo(32,5);
-tCtx.lineTo(32,59);
-tCtx.stroke();
-
-const img=new Image();
-img.src=tempCanvas.toDataURL();
-
-return img;
-
+  if (animationFrame) cancelAnimationFrame(animationFrame);
+  drawPetals();
 }
 
-const particleImage=createDefaultImage();
+function stopPetals() {
+  if (animationFrame) {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = null;
+  }
 
-function rotateVector(x,y,z,ax,ay,az){
-
-let cos=Math.cos(az);
-let sin=Math.sin(az);
-
-const x1=x*cos-y*sin;
-const y1=x*sin+y*cos;
-const z1=z;
-
-cos=Math.cos(ay);
-sin=Math.sin(ay);
-
-const x2=x1*cos+z1*sin;
-const y2=y1;
-const z2=-x1*sin+z1*cos;
-
-cos=Math.cos(ax);
-sin=Math.sin(ax);
-
-return{
-x:x2,
-y:y2*cos-z2*sin,
-z:y2*sin+z2*cos
-};
-
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-class Particle{
+/* VIDEO PLAYER */
+let activeHls = null;
 
-constructor(initOnScreen=false){
-this.reset(initOnScreen);
+function playChannel(url, name) {
+  const video = document.getElementById("tvPlayer");
+  const playerBox = document.getElementById("playerBox");
+
+  stopVideo();
+
+  document.getElementById("playerTitle").textContent = name;
+  playerBox.style.display = "block";
+
+  if (url.includes(".m3u8") && window.Hls && Hls.isSupported()) {
+    activeHls = new Hls();
+    activeHls.loadSource(url);
+    activeHls.attachMedia(video);
+    activeHls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play().catch(() => {});
+    });
+  } else {
+    video.src = url;
+    video.play().catch(() => {});
+  }
+
+  playerBox.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-reset(initOnScreen=false){
+function stopVideo() {
+  const video = document.getElementById("tvPlayer");
 
-this.image=particleImage;
+  if (activeHls) {
+    activeHls.destroy();
+    activeHls = null;
+  }
 
-this.width=cache.minSize+
-Math.random()*(cache.maxSize-cache.minSize);
+  video.pause();
+  video.removeAttribute("src");
+  video.load();
 
-this.height=this.width;
-
-const centerY=height*settings.emitterY;
-const spreadHeight=height*settings.emitterSpread;
-
-const minY=centerY-spreadHeight/2;
-const maxY=centerY+spreadHeight/2;
-
-this.y=minY+Math.random()*(maxY-minY);
-
-if(initOnScreen){
-this.x=Math.random()*width;
-}else{
-this.x=width+this.width+Math.random()*width;
+  document.getElementById("playerBox").style.display = "none";
 }
-
-const sizeFactor=
-(this.width-cache.minSize)/
-(cache.maxSize-cache.minSize||1);
-
-this.windFactor=1-(sizeFactor*.5+Math.random()*.5);
-this.windFactor=Math.max(.1,Math.min(1,this.windFactor));
-
-this.vx=0;
-this.vy=0;
-this.waveOffset=Math.random()*Math.PI*2;
-this.angleZ=Math.random()*Math.PI*2;
-this.spinZ=(Math.random()-.5)*settings.rotationSpeed;
-this.angleX=0;
-this.angleY=0;
-this.spinX=(Math.random()-.5)*.1;
-this.spinY=(Math.random()-.5)*.1;
-
-}
-
-update(){
-
-const targetSpeed=
-cache.minWind+
-(cache.maxWind-cache.minWind)*this.windFactor;
-
-this.vx+=(targetSpeed-this.vx)*.1;
-this.x+=this.vx*settings.direction;
-
-const gravityMod=1.5-this.windFactor;
-this.vy+=settings.gravity*.05*gravityMod;
-
-const wave=Math.sin(
-this.x*.01*settings.direction+this.waveOffset
-);
-
-this.vy+=wave*settings.turbulence*.05;
-this.vy*=.98;
-this.y+=this.vy;
-
-this.angleZ+=this.spinZ+this.vx*.002;
-
-if(settings.tumbleStrength>0){
-this.angleX+=this.spinX*settings.tumbleStrength;
-this.angleY+=this.spinY*settings.tumbleStrength;
-}
-
-const buffer=200;
-
-const outByX=
-settings.direction===-1
-?this.x < -buffer
-:this.x > width+buffer;
-
-if(outByX||this.y>height+buffer||this.y < -buffer){
-this.reset(false);
-}
-
-}
-
-draw(){
-
-const vecU=rotateVector(
-1,0,0,
-this.angleX,
-this.angleY+cache.tiltRad,
-this.angleZ
-);
-
-const vecV=rotateVector(
-0,1,0,
-this.angleX,
-this.angleY+cache.tiltRad,
-this.angleZ
-);
-
-ctx.save();
-ctx.translate(this.x,this.y);
-ctx.transform(vecU.x,vecU.y,vecV.x,vecV.y,0,0);
-
-ctx.drawImage(
-this.image,
--this.width/2,
--this.height/2,
-this.width,
-this.height
-);
-
-ctx.restore();
-
-}
-
-}
-
-function resizeSakura(){
-
-width=canvas.width=window.innerWidth;
-height=canvas.height=window.innerHeight;
-
-ctx.imageSmoothingEnabled=true;
-ctx.imageSmoothingQuality="high";
-
-if(!animationStarted){
-updateCache();
-initParticles();
-animationStarted=true;
-}
-
-}
-
-function initParticles(){
-
-particles=[];
-
-for(let i=0;i<settings.particleCount;i++){
-
-const particle=new Particle(true);
-particles.push(particle);
-
-}
-
-}
-
-function animate(){
-
-ctx.fillStyle=settings.bgColor;
-ctx.fillRect(0,0,width,height);
-
-for(const particle of particles){
-particle.update();
-particle.draw();
-}
-
-requestAnimationFrame(animate);
-
-}
-
-updateCache();
-resizeSakura();
-initParticles();
-animate();
-
-window.addEventListener("resize",resizeSakura);
-
 </script>
 
 </body>
