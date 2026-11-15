@@ -1,1 +1,136 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UMRANI TV Channels</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#080808;
+color:white;
+font-family:Arial,sans-serif;
+text-align:center;
+}
+header{
+padding:25px;
+background:#111;
+border-bottom:2px solid cyan;
+}
+h1{
+color:#00eaff;
+text-shadow:0 0 15px cyan;
+}
+.home{
+display:inline-block;
+padding:12px 22px;
+border:2px solid orange;
+border-radius:25px;
+color:orange;
+text-decoration:none;
+margin:15px;
+}
+.channels{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:15px;
+padding:20px;
+}
+.channel{
+background:#171717;
+border:1px solid #00eaff;
+border-radius:15px;
+padding:20px 10px;
+cursor:pointer;
+}
+.channel:hover{
+box-shadow:0 0 18px cyan;
+}
+.channel h3{color:#ffcc00}
+.player{
+padding:15px;
+}
+video{
+width:100%;
+max-width:750px;
+background:#000;
+border:2px solid cyan;
+border-radius:12px;
+}
+iframe{
+width:100%;
+max-width:750px;
+height:400px;
+border:2px solid cyan;
+border-radius:12px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>𓆩UM꧊ꝛ͢𓂃aNi𖡼 TV</h1>
+<p>Enjoy Live Television 📺</p>
+<a class="home" href="index.html">🏠 Home</a>
+</header>
+
+<h2>📺 Select Your Channel</h2>
+
+<div class="channels">
+<div class="channel" onclick="playChannel('channel1')">
+<h3>Channel 01</h3>
+<p>▶ Watch Live</p>
+</div>
+
+<div class="channel" onclick="playChannel('channel2')">
+<h3>Channel 02</h3>
+<p>▶ Watch Live</p>
+</div>
+
+<div class="channel" onclick="playChannel('channel3')">
+<h3>Channel 03</h3>
+<p>▶ Watch Live</p>
+</div>
+
+<div class="channel" onclick="playChannel('channel4')">
+<h3>Channel 04</h3>
+<p>▶ Watch Live</p>
+</div>
+</div>
+
+<div class="player" id="player">
+<h2>Select a Channel</h2>
+<p>Live TV player will appear here.</p>
+</div>
+
+<script>
+const channels={
+channel1:"",
+channel2:"",
+channel3:"",
+channel4:""
+};
+
+function playChannel(id){
+const url=channels[id];
+const player=document.getElementById("player");
+
+if(!url){
+player.innerHTML="<h2>Channel Not Available</h2><p>Please add a valid streaming link for this channel.</p>";
+return;
+}
+
+player.innerHTML=`
+<h2>Now Playing</h2>
+<video controls autoplay playsinline>
+<source src="${url}" type="application/x-mpegURL">
+Your browser does not support this video.
+</video>`;
+}
+</script>
+
+</body>
+</html>
